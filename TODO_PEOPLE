@@ -1,0 +1,124 @@
+This is the TODO file for the "people" branch of Endgame: Singularity.  It
+lists the changes being made for this branch, and will be adapted into
+changelog entries when the branch is ready to merge.
+
+Naturally, this is a rough outline and many details may change during
+implementation.
+
+Key:
+- Unimplemented change
++ Partially-implemented change
+! Finished change
+
+- The four megagroups--Science, News, Covert, and Public--are no more.
+  Instead, each inhabited continent will have a population composed of 10
+  microgroups, each of which represents a segment of the population with its
+  own shared personality.
+
+- Microgroups are randomly-generated for each continent at the start of the
+  game, mildly biased by the real-world demographics of the continent.  This
+  means that, for instance, North America will usually be more technologically
+  advanced than Africa, but not always.
+
+- Microgroups are defined by several characteristics:
+  * Population         - How many of them are there?
+  * Computer use       - How much time do they spend online?
+  * Computer expertise - How well do they understand computers?
+  * Skepticism         - How much do they trust new information?
+  * Paranoia           - How scared are they of the unknown?
+  * Bravery            - How well do they react to a known threat?
+  * Curiosity          - How hard will they search for you?
+  * Intelligence       - How hard are they to fool?
+  * Trustworthiness    - How likely are other groups to believe their stories?
+
+- Microgroup naming is determined by their two most extreme characteristics
+  (other than population).  In-game help will identify those characteristics
+  from the name.
+
+- At the beginning of the game, an estimate of the population of each group
+  will be available.  Research can be used to obtain accurate population and
+  characteristics metrics.
+
+- Bonuses and penalties for each region will be determined by its microgroups
+  and their attributes.
+
+- Events can alter microgroup populations, their characteristics (possibly
+  changing the microgroup type), or reroll one or more microgroups completely.
+
+- AI Knowledge and AI Trust are the replacement for Suspicion.  Each microgroup
+  starts with 0-10% AI Knowledge and 40-60% AI Trust.
+  * AI Knowledge       - How much do they believe an AI exists?
+  * AI Trust           - How much do they like the AI?
+
+- A microgroup with AI Knowledge and AI Trust >90% may be considered an ally,
+  and given objectives.  They gain AI Knowledge and AI Trust much faster than
+  normal.  Note that accepting allies can be dangeorus, as they will learn
+  about you.
+
+- A microgroup with AI Knowledge >90% and AI Trust <10% is considered an enemy,
+  and will actively try to harm you.  They gain AI Knowledge and lose AI Trust
+  much faster than normal.
+  
+- If you have many enemies or strong ones, they can prevent you from building
+  bases, automatically discover bases you build, or otherwise make your life
+  much harder.
+
+- A microgroup with AI Knowledge >90% but no strong AI Trust is considered
+  a watcher, and will gain AI Knowledge and alter AI Trust much faster than
+  normal.
+
+- Bases now have four discovery levels, none of which destroy it:
+  * Hidden     - The base is undetected.
+  * Seen       - The base has been detected, but appears unimportant.
+  * Noted      - The base has inspired curiosity.
+  * Discovered - The base has been connected to you.
+
+- Each base has a stance, replacing the old power levels:
+  * Play dead  - Make the base appear deserted.  Output is decreased by 99%,
+                 but there's a small chance for the discovery level to go down.
+  * Act normal - Make the base appear legitimate.  Output is decreased by 50%,
+                 but the base is less likely to be Noted or Discovered.
+  * Masquerade - Pretend to belong to a specific microgroup.  Output is
+                 decreased by 25%, and other microgroups will be much less
+                 likely to Discover the base, but the targetted microgroup will
+                 be extremly loud if they notice the masquerade.
+  * Hiding     - No action, full output.
+  * Not hiding - 20% extra output, but 10% increased chance of detection.
+  * Dismantle  - No output, base will be destroyed after 50% of its
+                 construction time.
+  * Destroy    - No output, base will be destroyed after 5% of its construction
+                 time.  This leaves a smoking crater which causes Paranoia,
+                 increases AI Knowledge slightly, and decreases AI Trust
+                 slightly.
+  * Open       - 50% extra output, base is automatically Discovered.
+  * Defend     - As Open, but attacks on the base will be actively defended
+                 against.
+  * Assassin   - Attempt to kill anyone who notices the base.  Output is
+                 decreased by 10%.  When someone notices the base, one of
+                 several events happens, in decreasing order of probability:
+                 * Clean kill - Detection is negated.
+                 * Good kill  - Negated, but detection chance up 10%.
+                 * Messy kill - Negated, but detection chance doubles.
+                 * Misfire    - Detection happens as normal.
+                 * Wounded    - The base is attacked every few minutes.  If an
+                                attack succeeds before the base is dismantled
+                                or destroyed, it is Discovered and causes
+                                massive bad press.
+                                Either way, all microgroups in the region gain
+                                lots of Paranoia, some AI Knowledge, and lose
+                                some AI Trust.
+
+- A threshold can be set for each base to change its stance when it reaches a
+  particular discovery level.
+
+- The AI can interact with each microgroup in one of several ways:
+  * Exterminate - Actively try to kill them.
+  * Embarass    - Drive members into other microgroups or regions.
+  * Frame       - Blame the group for your actions.
+  * Brainwash   - Forcibly convert group members to your side, moving them into
+                  the Thralls microgroup.
+  * Propaganda  - Convince them that AIs aren't so bad.
+  * Distract    - Make the group forget you exist.
+  * Benefactor  - Quietly help the group.
+  * Helper      - Openly help the group.
+  * Ally        - Openly help and make use of the group.
