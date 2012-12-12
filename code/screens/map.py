@@ -604,6 +604,9 @@ class MapScreen(dialog.Dialog):
             button.text = "%s (%d)" % (location.name, len(location.bases))
             button.visible = location.available()
 
+        self.needs_redraw = True
+
+
     def load_game(self):
         save_names = g.get_save_names()
         save_names.sort(key=str.lower)
